@@ -5,6 +5,9 @@ import os
 i_token_cost = 0.01/1000
 o_token_cost = 0.03/1000
 
+prompt = "DescribeImage|10WordsOrLess"
+max_tokens = 20
+
 def encode_image_as_base64(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
@@ -22,7 +25,7 @@ def describe_image(image_path):
             "content": [
             {
                 "type": "text",
-                "text": "DescribeImage|10WordsOrLess"
+                "text": prompt
             },
             {
                 "type": "image_url",
@@ -33,7 +36,7 @@ def describe_image(image_path):
             ]
         }
         ],
-        "max_tokens": 20,
+        "max_tokens": max_tokens,
     }
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers,json=payload).json()
     
